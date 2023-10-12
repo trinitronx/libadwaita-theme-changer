@@ -29,23 +29,31 @@ if __name__ == "__main__":
     abs_home_dir = os.getenv('HOME')
     rel_config_dir = ".config"
     local_share_dir = ".local/share/themes"
+    usr_local_share_dir = "/usr/local/share/themes"
+    usr_share_dir = "/usr/share/themes"
     dot_themes_dir = ".themes"
 
     rel_themes_dir = str()
     print("Select theme folder: ")
     print(f'0. {local_share_dir}')
     print(f'1. {dot_themes_dir}')
+    print(f'2. {usr_local_share_dir}')
+    print(f'3. {usr_share_dir}')
     opt = input("Choose your theme folder: ")
     match opt:
         case "0":
             rel_themes_dir = local_share_dir
         case "1":
             rel_themes_dir = dot_themes_dir
+        case "2":
+            rel_themes_dir = usr_local_share_dir
+        case "3":
+            rel_themes_dir = usr_share_dir
         case _:
             raise ValueError()
 
     abs_config_dir = os.path.join(abs_home_dir, rel_config_dir)
-    abs_themes_dir = os.path.join(abs_home_dir, rel_themes_dir)
+    abs_themes_dir = rel_themes_dir if rel_themes_dir[0] == '/' else os.path.join(abs_home_dir, rel_themes_dir)
     if "--reset" in sys.argv:
         print(f'\n***\nResetting theme to default!\n***\n')
         removeCurrentTheme(abs_config_dir)
